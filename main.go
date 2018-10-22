@@ -4,12 +4,12 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	c "github.com/ehsun7b/simple-chatroom-in-GoLang-RPC/client"
+	h "github.com/ehsun7b/simple-chatroom-in-GoLang-RPC/help"
+	"github.com/ehsun7b/simple-chatroom-in-GoLang-RPC/server"
 	"log"
 	"os"
 	"os/signal"
-	c "simple-chatroom-in-GoLang-RPC/client"
-	h "simple-chatroom-in-GoLang-RPC/help"
-	"simple-chatroom-in-GoLang-RPC/server"
 	"strings"
 	"time"
 )
@@ -66,10 +66,10 @@ func main() {
 }
 
 func setCleanupOnCtrlC() {
-	c := make(chan os.Signal)
-	signal.Notify(c, os.Interrupt)
+	channel := make(chan os.Signal)
+	signal.Notify(channel, os.Interrupt)
 	go func() {
-		for sig := range c {
+		for sig := range channel {
 			if sig == os.Interrupt {
 				cleanup()
 			}

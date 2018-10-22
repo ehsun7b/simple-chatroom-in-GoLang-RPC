@@ -2,11 +2,11 @@ package server
 
 import (
 	"fmt"
+	"github.com/ehsun7b/simple-chatroom-in-GoLang-RPC/client"
 	"log"
 	"net"
 	"net/http"
 	"net/rpc"
-	"simple-chatroom-in-GoLang-RPC/client"
 	"strconv"
 	"strings"
 )
@@ -28,16 +28,16 @@ func StartServer(port int) {
 }
 
 func sendToClient(ip string, port int, from string, message string) {
-	client, err := rpc.DialHTTP("tcp", ip+":"+strconv.Itoa(port))
+	clnt, err := rpc.DialHTTP("tcp", ip+":"+strconv.Itoa(port))
 	if err != nil {
 		log.Printf("dialing: %v\n", err.Error())
 	}
 
 	var response int
 
-	error := client.Call("Client.Deliver", fmt.Sprintf("%v,%v", from, message), &response)
-	if error != nil {
-		log.Printf("calling... %v", error.Error())
+	e := clnt.Call("Client.Deliver", fmt.Sprintf("%v,%v", from, message), &response)
+	if e != nil {
+		log.Printf("calling... %v", e.Error())
 	}
 }
 
